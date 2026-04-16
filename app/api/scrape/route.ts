@@ -4,7 +4,10 @@ import { createClient } from "@/lib/supabase/server";
 export const dynamic = "force-dynamic";
 
 function scraperBaseUrl(): string | null {
-  const u = process.env.SCRAPER_API_URL?.trim();
+  // Primary: server env on Vercel. Fallback: NEXT_PUBLIC_* to tolerate legacy setups.
+  const u =
+    process.env.SCRAPER_API_URL?.trim() ??
+    process.env.NEXT_PUBLIC_SCRAPER_API_URL?.trim();
   if (!u) return null;
   return u.replace(/\/$/, "");
 }
@@ -16,12 +19,18 @@ async function proxyScraper(
   const base = scraperBaseUrl();
   const secret = process.env.SCRAPER_API_SECRET?.trim();
   if (!base || !secret) {
+    const missing = [
+      !base ? "SCRAPER_API_URL" : null,
+      !secret ? "SCRAPER_API_SECRET" : null,
+    ]
+      .filter(Boolean)
+      .join(" + ");
     return NextResponse.json(
       {
         status: "error" as const,
         startedAt: null,
         finishedAt: null,
-        error: "Scraper worker not configured (missing SCRAPER_API_URL or SCRAPER_API_SECRET).",
+        error: `Scraper worker not configured (missing ${missing}).`,
         startedByUserId: null,
       },
       { status: 503 }

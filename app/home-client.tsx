@@ -248,10 +248,10 @@ export function HomeClient() {
                   python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
                 </pre>
                 <p className="mt-2 text-xs text-amber-900/85">
-                  Match <span className="font-mono">SCRAPER_API_URL</span> and{" "}
-                  <span className="font-mono">SCRAPER_API_SECRET</span> in{" "}
-                  <span className="font-mono">web/.env.local</span> (the worker reads that file).
-                  On Vercel, set <span className="font-mono">SCRAPER_API_URL</span> to your tunnel URL.
+                  Local worker reads <span className="font-mono">web/.env.local</span>. On
+                  Vercel, set <span className="font-mono">SCRAPER_API_URL</span> to your
+                  Cloudflare tunnel URL and <span className="font-mono">SCRAPER_API_SECRET</span>{" "}
+                  to the same secret used by your worker.
                 </p>
               </div>
             ) : (
