@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   const { data: profile, error } = await supabase
     .from("profiles")
     .select(
-      "records_count, last_scrape_finished_at, last_ingested_at, last_result_page"
+      "records_count, last_scrape_finished_at, last_ingested_at, last_result_page, last_estate_number"
     )
     .eq("id", user.id)
     .maybeSingle();
@@ -50,6 +50,7 @@ export async function GET(req: NextRequest) {
     pageSize,
     lastScrapedAt,
     lastResultPage: profile?.last_result_page ?? null,
+    lastEstateNumber: (profile as { last_estate_number?: string | null } | null)?.last_estate_number ?? null,
     leadsNote:
       "Detailed leads are not stored in the cloud. After each run you get a CSV by email; the file also lives on your scraper PC.",
   };

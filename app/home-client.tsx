@@ -193,7 +193,7 @@ export function HomeClient() {
           </span>
         </div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div className="rounded-xl border border-neutral-100 bg-neutral-50/80 p-5">
             <p className="text-xs font-medium text-neutral-500">Rows in last export</p>
             <p className="mt-2 font-mono text-3xl font-semibold tabular-nums tracking-tight text-neutral-900">
@@ -212,6 +212,17 @@ export function HomeClient() {
             </p>
             <p className="mt-2 text-xs text-neutral-500">
               Open the CSV from email or your scraper folder for full leads.
+            </p>
+          </div>
+          <div className="rounded-xl border border-neutral-100 bg-neutral-50/80 p-5">
+            <p className="text-xs font-medium text-neutral-500">Resume point</p>
+            <p className="mt-2 font-mono text-lg font-medium tabular-nums leading-snug text-neutral-800">
+              {data?.lastResultPage ? `Page ${data.lastResultPage}` : "—"}
+            </p>
+            <p className="mt-2 text-xs text-neutral-500">
+              {data?.lastEstateNumber
+                ? `Last estate #${data.lastEstateNumber} — next run picks up here.`
+                : "Next run will start from page 1."}
             </p>
           </div>
         </div>

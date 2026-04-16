@@ -22,6 +22,8 @@ export interface EstatesResponse {
   /** Last finished scrape time (profile bookmark). */
   lastScrapedAt: string | null;
   lastResultPage: number | null;
+  /** Last estate number saved in the bookmark — used to verify resume point. */
+  lastEstateNumber: string | null;
   /** Explains that detailed leads live on the scraper PC + email. */
   leadsNote?: string;
 }
