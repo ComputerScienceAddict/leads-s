@@ -39,6 +39,13 @@ function LoginForm() {
       return;
     }
 
+    // Ensure profile row exists even if DB trigger was missing in earlier schema state.
+    try {
+      await fetch("/api/profile/ensure", { method: "POST" });
+    } catch {
+      // Non-fatal: middleware/session will still proceed.
+    }
+
     window.location.assign("/");
   }
 
@@ -72,6 +79,11 @@ function LoginForm() {
     }
 
     if (data.session) {
+      try {
+        await fetch("/api/profile/ensure", { method: "POST" });
+      } catch {
+        // Non-fatal: profile sync can happen on next authenticated request.
+      }
       window.location.assign("/");
       return;
     }
