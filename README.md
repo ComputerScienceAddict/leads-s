@@ -1,5 +1,21 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Vercel + scraper worker (your PC)
+
+The site on Vercel calls your **FastAPI worker** over HTTPS. On your machine, expose the worker with a **Cloudflare quick tunnel** (no Cloudflare account required for the quick URL):
+
+1. From the project that contains `api/` (parent folder), start the worker:  
+   `python -m uvicorn api.main:app --host 127.0.0.1 --port 8000`
+2. In **this** `web` repo, run:  
+   `powershell -ExecutionPolicy Bypass -File .\scripts\start-cloudflare-tunnel.ps1`
+3. Copy the printed `https://….trycloudflare.com` URL.
+4. In **Vercel** → Project → Settings → Environment Variables set:
+   - `SCRAPER_API_URL` = that URL (no trailing slash)
+   - `SCRAPER_API_SECRET` = same secret as on the worker (see `.env.local.example`)
+5. Redeploy the Vercel project (or save env and trigger a new deployment).
+
+**Note:** Quick tunnel URLs change each time you restart `cloudflared`. For a stable hostname, use a [named Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/) in the Cloudflare dashboard.
+
 ## Getting Started
 
 First, run the development server:

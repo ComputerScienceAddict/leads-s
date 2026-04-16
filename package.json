@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "tunnel:worker": "cloudflared tunnel --url http://127.0.0.1:8000",
     "supabase:link": "cd .. && npx supabase link",
     "supabase:push": "cd .. && npx supabase db push"
   },
