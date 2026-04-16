@@ -98,8 +98,11 @@ function LoginForm() {
       return;
     }
 
-    // No session (e.g. “Confirm email” still on in Supabase) — still no verification in our UX
-    setInfo("Account created. Use Sign in with the same email and password.");
+    // No session: project likely requires email confirmation.
+    setInfo(
+      "Account created. Check your email to confirm the account, then sign in. " +
+        "If you want instant login, disable 'Confirm email' in Supabase Auth settings."
+    );
     setPassword("");
     setConfirm("");
     setMode("signin");
