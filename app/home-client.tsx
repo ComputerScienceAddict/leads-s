@@ -128,18 +128,6 @@ export function HomeClient() {
 
   return (
     <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
-      <div className="mb-8 sm:mb-10">
-        <h1 className="text-3xl font-semibold tracking-tight text-neutral-900 sm:text-[2rem]">
-          Collect data
-        </h1>
-        <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-600">
-          Runs on <strong>your PC</strong> (Playwright + FastAPI). Cloudflare Tunnel lets this site
-          send a start signal. Lead rows stay in a CSV on that machine—{' '}
-          <strong>not</strong> in Supabase—and the same CSV is emailed to you when the run
-          completes. Your Supabase profile only stores bookmark stats (counts, last run time).
-        </p>
-      </div>
-
       <div className="rounded-2xl border border-neutral-200 bg-white px-6 py-8 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:px-8 sm:py-10">
         <div className="border-b border-neutral-100 pb-3">
           <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-neutral-500">
@@ -150,7 +138,7 @@ export function HomeClient() {
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <button
             type="button"
-            onClick={() => handleRunCollection(50)}
+            onClick={() => handleRunCollection(10)}
             disabled={isRunning}
             className={`inline-flex min-h-[44px] items-center justify-center rounded-lg px-6 text-sm font-semibold transition ${
               isRunning
@@ -167,7 +155,7 @@ export function HomeClient() {
                 Running…
               </span>
             ) : (
-              "Run quick (50)"
+              "Run quick (10)"
             )}
           </button>
           <button

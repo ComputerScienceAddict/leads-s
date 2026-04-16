@@ -54,18 +54,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </div>
         </header>
         {children}
-        <footer className="mt-auto border-t border-neutral-200 bg-white">
-          <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
-            <a
-              href="https://registers.maryland.gov"
-              target="_blank"
-              rel="noreferrer"
-              className="text-sm text-neutral-500 hover:text-neutral-800"
-            >
-              Maryland Register of Wills
-            </a>
-          </div>
-        </footer>
       </body>
     </html>
   );
