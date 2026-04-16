@@ -3,7 +3,6 @@
 import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { sanitizeAuthErrorMessage } from "@/lib/auth-errors";
-import { createClient } from "@/lib/supabase/client";
 
 type Mode = "signin" | "signup";
 
@@ -27,15 +26,20 @@ function LoginForm() {
     setError(null);
     setInfo(null);
 
-    const supabase = createClient();
-    const { error: err } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+    const res = await fetch("/api/auth/signin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
     });
-
+    let json: { error?: string } = {};
+    try {
+      json = await res.json();
+    } catch {
+      // no-op
+    }
     setLoading(false);
-    if (err) {
-      setError(sanitizeAuthErrorMessage(err.message));
+    if (!res.ok) {
+      setError(sanitizeAuthErrorMessage(json.error ?? "Sign in failed."));
       return;
     }
 
@@ -66,19 +70,25 @@ function LoginForm() {
       return;
     }
 
-    const supabase = createClient();
-    const { data, error: err } = await supabase.auth.signUp({
-      email,
-      password,
+    const res = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
     });
+    let json: { error?: string; hasSession?: boolean } = {};
+    try {
+      json = await res.json();
+    } catch {
+      // no-op
+    }
 
     setLoading(false);
-    if (err) {
-      setError(sanitizeAuthErrorMessage(err.message));
+    if (!res.ok) {
+      setError(sanitizeAuthErrorMessage(json.error ?? "Sign up failed."));
       return;
     }
 
-    if (data.session) {
+    if (json.hasSession) {
       try {
         await fetch("/api/profile/ensure", { method: "POST" });
       } catch {
