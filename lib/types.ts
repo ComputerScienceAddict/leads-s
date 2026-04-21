@@ -5,11 +5,13 @@ export interface Estate {
   status: string;
   date_opened: string;
   date_closed: string;
-  reference: string;
   decedent_name: string;
-  personal_representative: string;
-  pr_address: string;
-  attorney: string;
+  date_of_death: string;
+  date_of_filing: string;
+  will: string;
+  date_of_will: string;
+  date_of_probate: string;
+  personal_reps: string;
   scraped_at: string;
 }
 

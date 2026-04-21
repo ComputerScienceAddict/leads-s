@@ -13,11 +13,13 @@ const HEADERS: (keyof Estate)[] = [
   "status",
   "date_opened",
   "date_closed",
-  "reference",
   "decedent_name",
-  "personal_representative",
-  "pr_address",
-  "attorney",
+  "date_of_death",
+  "date_of_filing",
+  "will",
+  "date_of_will",
+  "date_of_probate",
+  "personal_reps",
   "scraped_at",
 ];
 
@@ -51,7 +53,7 @@ function isValidRow(row: Partial<Estate>): row is Estate {
   return /^\d+$/.test(row.estate_number ?? "");
 }
 
-/** Legacy rows had `detail_url` before `scraped_at` (13 cols). New format has 12. */
+/** Legacy rows had `detail_url` before `scraped_at` (13 cols → 12 data cols). */
 function normalizeDataColumns(cols: string[]): string[] {
   if (cols.length === 13) {
     return [...cols.slice(0, 11), cols[12] ?? ""];

@@ -93,8 +93,9 @@ export async function POST(req: Request) {
   }
 
   let maxRecords: number | undefined;
+  let county: string | undefined;
   try {
-    const body = (await req.json()) as { max_records?: unknown };
+    const body = (await req.json()) as { max_records?: unknown; county?: unknown };
     if (body?.max_records != null) {
       const n = Number(body.max_records);
       if (!Number.isFinite(n) || n < 1 || n > 10_000) {
@@ -104,6 +105,10 @@ export async function POST(req: Request) {
         );
       }
       maxRecords = Math.floor(n);
+    }
+    if (body?.county != null && typeof body.county === "string") {
+      const c = body.county.trim();
+      if (c) county = c;
     }
   } catch {
     // empty body is fine — full run
@@ -117,6 +122,7 @@ export async function POST(req: Request) {
       user_id: user.id,
       user_email: user.email,
       ...(maxRecords != null ? { max_records: maxRecords } : {}),
+      ...(county != null ? { county } : {}),
     }),
   });
 
