@@ -105,13 +105,16 @@ export function HomeClient() {
 
   async function handleRunCollection() {
     setScrapeMsg(null);
-    const maxRecords =
-      leadAmount === "full"
-        ? undefined
-        : Number.parseInt(leadAmount, 10);
-    if (leadAmount !== "full" && (!Number.isFinite(maxRecords) || maxRecords < 1)) {
-      setScrapeMsg("Choose a valid lead amount.");
-      return;
+    let maxRecords: number | undefined;
+    if (leadAmount === "full") {
+      maxRecords = undefined;
+    } else {
+      const parsed = Number.parseInt(leadAmount, 10);
+      if (!Number.isFinite(parsed) || parsed < 1) {
+        setScrapeMsg("Choose a valid lead amount.");
+        return;
+      }
+      maxRecords = parsed;
     }
 
     let res: Response;
